@@ -38,6 +38,7 @@ const Styles = createGlobalStyle`
   body {
     font-size: 16px;
     font-family: "Lato", sans-serif;
+    scroll-behavior: smooth;
   }
 `;
 

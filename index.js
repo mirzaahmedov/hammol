@@ -574,6 +574,8 @@ app.get('/api/product', (req, res)=>{
     let {name = '', category = '', offset = 0, limit = 10} = req.query
     console.log("BEFORE TRIM", name, category);
     name = name.toLowerCase()
+    offset = Number(offset)
+    limit = Number(limit)
     category = category.toLowerCase()
     console.log("AFTER TRIM", name, category);
     if(!limit) {
@@ -581,10 +583,12 @@ app.get('/api/product', (req, res)=>{
     }
 
     if(!name && !category) {
-        // res.json(products.products)
         console.log("not given");
         let found = products.products
-        let count = found.slice(offset, limit)
+        console.log('category given');
+        let start = offset + limit
+        let count = found.slice(offset, start)
+        console.log(found);
         res.json({
             products: count,
             count: found.length
@@ -594,7 +598,8 @@ app.get('/api/product', (req, res)=>{
     } else if( !name && category ) {
         let found = products.products.filter(el=> el.category == category)
         console.log('category given');
-        let count = found.slice(offset, limit)
+        let start = offset + limit
+        let count = found.slice(offset, start)
         res.json({
             products: count,
             count: found.length
@@ -603,7 +608,8 @@ app.get('/api/product', (req, res)=>{
     } else if (name && !category) {
         let found = products.products.filter(el=> el.title.toLowerCase().includes(name))
         console.log('name given');
-        let count = found.slice(offset, limit)
+        let start = offset + limit
+        let count = found.slice(offset, start)
         res.json({
             products: count,
             count: found.length
@@ -612,7 +618,8 @@ app.get('/api/product', (req, res)=>{
     } else {
         let found = products.products.filter(el=> el.title.toLowerCase().includes(name) && el.category == category)
         console.log('all given');
-        let count = found.slice(offset, limit)
+        let start = offset + limit
+        let count = found.slice(offset, start)
         res.json({
             products: count,
             count: found.length

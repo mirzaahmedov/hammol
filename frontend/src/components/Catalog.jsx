@@ -23,12 +23,10 @@ export default function Catalog() {
   return (
     <Container>
       <Grid>
-        <AnimateSharedLayout>
-          {products &&
-            products.map((product) => (
-              <Product key={product.id} {...product} />
-            ))}
-        </AnimateSharedLayout>
+        {products.items &&
+          products.items.map((product) => (
+            <Product key={product.id} {...product} />
+          ))}
       </Grid>
     </Container>
   );

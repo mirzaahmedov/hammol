@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Categories from "@components/Categories";
 
@@ -49,16 +49,21 @@ export default function SearchBar() {
   const [term, setTerm] = React.useState("");
 
   const dispatch = useDispatch();
+  const { activePage, itemsPerPage, pagesCount } = useSelector(
+    (state) => state.products
+  );
 
   React.useEffect(
     function () {
       axios
         .get(
-          `http://localhost:3001/api/product?name=${term}&category=${selectedCategory}`
+          `http://localhost:3001/api/product?name=${term}&category=${selectedCategory}&offset=${
+            (activePage - 1) * itemsPerPage
+          }&limit=${itemsPerPage}`
         )
-        .then((response) => dispatch(setProducts(response.data.products)));
+        .then((response) => dispatch(setProducts(response.data)));
     },
-    [term, selectedCategory]
+    [term, selectedCategory, activePage]
   );
 
   return (

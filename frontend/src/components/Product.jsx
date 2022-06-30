@@ -63,7 +63,7 @@ export default function Product({ id, title, brand, thumbnail, price }) {
   const dispatch = useDispatch();
 
   return (
-    <Container layout>
+    <Container layoutId={id}>
       <Thumbnail to={`/product/${id}`}>
         <ThumbnailImg src={thumbnail} alt={title} />
       </Thumbnail>
